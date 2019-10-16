@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <script>
-    $('#gal').simpleLightbox();
+    $('#gal').simpleLightbox({
+        links: 'a[rel="lightbox"]'
+    });
 
     $('#main-banner').sliderPro({
         width: '100%',
@@ -45,9 +47,9 @@
 <body>
 
     <div id="gal">
-        <a href="img1.png" rel="lightbox" title="img1.png"><img src="img1_thumb.png"></a>
-        <a href="img2.png" rel="lightbox" title="img2.png"><img src="img2_thumb.png"></a>
-        <a href="img3.png" rel="lightbox" title="img3.png"><img src="img3_thumb.png"></a>
+        <a href="images\wow\1.png" rel="lightbox" title="img1.png"><img src="1.png"></a>
+        <a href="images\wow\2.png" rel="lightbox" title="img2.png"><img src="images\wow\2.png"></a>
+        <a href="images\wow\3.png" rel="lightbox" title="img3.png"><img src="images\wow\3.png"></a>
     </div>
 
     <div id="main-banner" class="slider-pro">
