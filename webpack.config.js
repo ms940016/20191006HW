@@ -3,11 +3,11 @@ const webpack = require('webpack')
 const rootPath = path.join(__dirname, './')
 const srcPath = path.join(rootPath, 'src')
 
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')    //抽出css檔案
-const HtmlWebpackPlugin = require('html-webpack-plugin')           //自動產生html 靜態檔案對應
-const CopyPlugin = require('copy-webpack-plugin')                  //複製目錄
-const WriteFilePlugin = require('write-file-webpack-plugin')      //執行devServer時輸出檔案
-const SpritesmithPlugin = require('webpack-spritesmith')           //CSS Sprite
+const MiniCssExtractPlugin = require('mini-css-extract-plugin') //抽出css檔案
+const HtmlWebpackPlugin = require('html-webpack-plugin') //自動產生html 靜態檔案對應
+const CopyPlugin = require('copy-webpack-plugin') //複製目錄
+const WriteFilePlugin = require('write-file-webpack-plugin') //執行devServer時輸出檔案
+const SpritesmithPlugin = require('webpack-spritesmith') //CSS Sprite
 
 module.exports = {
   mode: process.env.NODE_ENV || 'development',
@@ -20,46 +20,43 @@ module.exports = {
   },
   devtool: 'source-map',
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.js|jsx/,
         exclude: /node_modules/,
         enforce: 'pre',
-        use: [
-          {
-            loader: 'eslint-loader',
+        use: [{
+          loader: 'eslint-loader',
+          options: {
+            fix: true
+          }
+        }]
+      },
+      {
+        test: /\.js|jsx$/,
+        exclude: /node_modules/,
+        use: [{
+          loader: 'babel-loader'
+        }]
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg|cur)$/,
+        use: [{
+            loader: 'url-loader',
             options: {
-              fix: true
+              limit: 40000
+            }
+          },
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              byPassOnDebug: true
             }
           }
         ]
       },
       {
-        test: /\.js|jsx$/,
-        exclude: /node_modules/,
-        use: [
-          {
-            loader: 'babel-loader'
-          }
-        ]
-      },
-      {
-        test: /\.(jpe?g|png|gif|svg|cur)$/,
-        use: [
-          {
-            loader: 'url-loader',
-            options: { limit: 40000 }
-          },
-          {
-            loader: 'image-webpack-loader',
-            options: { byPassOnDebug: true }
-          }
-        ]
-      },
-      {
         test: /\.(sa|sc|c)ss$/, // /\.(sass|scss|css)$/,
-        use: [
-          {
+        use: [{
             loader: MiniCssExtractPlugin.loader
           },
           {
@@ -85,19 +82,17 @@ module.exports = {
       },
       {
         test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        use: [
-          {
-            loader: 'url-loader',
-            options: {
-              // name: '[name].[ext]',
-              limit: 10000,
-              name: '[name].[ext]',
-              mimetype: 'application/font-woff',
-              outputPath: 'fonts',
-              publicPath: '../build/fonts' // override the default path
-            }
+        use: [{
+          loader: 'url-loader',
+          options: {
+            // name: '[name].[ext]',
+            limit: 10000,
+            name: '[name].[ext]',
+            mimetype: 'application/font-woff',
+            outputPath: 'fonts',
+            publicPath: '../build/fonts' // override the default path
           }
-        ]
+        }]
       }
     ] // rules end
   },
@@ -138,29 +133,27 @@ module.exports = {
       template: './src/index.html',
       filename: 'index.html'
     }),
-    new CopyPlugin([
-      {
-        from: './src/vender/**/*.gif',
-        to: './images/[name].[ext]',
-        flatten: true
-      }, {
-        from: './src/vender/**/*.jpg',
-        to: './images/[name].[ext]',
-        flatten: true
-      }, {
-        from: './src/vender/**/*.png',
-        to: './images/[name].[ext]',
-        flatten: true
-      }, {
-        from: './src/vender/**/*.cur',
-        to: './images/[name].[ext]',
-        flatten: true
-      }, {
-        from: './src/images/*.jpeg',
-        to: './images/[name].[ext]',
-        flatten: true
-      }
-    ]),
+    new CopyPlugin([{
+      from: './src/vender/**/*.gif',
+      to: './images/[name].[ext]',
+      flatten: true
+    }, {
+      from: './src/vender/**/*.jpg',
+      to: './images/[name].[ext]',
+      flatten: true
+    }, {
+      from: './src/vender/**/*.png',
+      to: './images/[name].[ext]',
+      flatten: true
+    }, {
+      from: './src/vender/**/*.cur',
+      to: './images/[name].[ext]',
+      flatten: true
+    }, {
+      from: './src/images/*.jpeg',
+      to: './images/[name].[ext]',
+      flatten: true
+    }]),
     new WriteFilePlugin()
   ],
   devServer: {
